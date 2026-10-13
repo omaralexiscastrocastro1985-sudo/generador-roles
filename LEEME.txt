@@ -1,0 +1,49 @@
+GENERADOR DE ROLES - APP INSTALABLE
+===================================
+
+QUÉ HAY EN ESTA CARPETA
+  index.html            La app
+  manifest.webmanifest  Nombre e ícono para instalarla
+  sw.js                 Permite usarla sin internet y avisar de actualizaciones
+  icons/                Íconos
+  vendor/               Componente para crear el Excel (funciona sin internet)
+
+PUBLICARLA EN GITHUB PAGES (una sola vez, unos 5 minutos)
+  1. Entra a github.com con tu cuenta.
+  2. Botón "New" -> nombre del repositorio: generador-roles -> Public -> Create repository.
+  3. En el repositorio nuevo, clic en "uploading an existing file".
+     Arrastra TODO el contenido de esta carpeta (los 3 archivos y las carpetas icons y vendor).
+     Clic en "Commit changes".
+  4. Settings -> Pages -> Source: "Deploy from a branch" -> Branch: main, carpeta / (root) -> Save.
+  5. Espera 1 o 2 minutos. Tu dirección será:
+        https://TU-USUARIO.github.io/generador-roles/
+
+  Si prefieres usar tu repositorio liga-alturas-app: copia esta carpeta adentro.
+  Si ese repositorio ya tiene Pages activo, quedará en:
+        https://TU-USUARIO.github.io/liga-alturas-app/generador-roles/
+
+  El código queda público, pero tus ligas y equipos NO se suben a GitHub:
+  se guardan solo en cada dispositivo donde uses la app.
+
+INSTALARLA
+  Computadora (Chrome o Edge): abre la dirección y presiona "Instalar app"
+    en la sección Mis ligas (o el ícono de instalar en la barra de direcciones).
+  Android (Chrome): menú de 3 puntos -> "Instalar app".
+  iPhone (Safari): botón Compartir -> "Agregar a inicio".
+  Después de instalarla funciona sin internet.
+
+RESPALDO (importante)
+  Los datos viven en el dispositivo. Si se borran los datos del navegador
+  o cambias de computadora, se pierden, salvo que tengas respaldo.
+  - "Guardar respaldo" descarga un archivo .json con TODAS tus ligas.
+    Guárdalo en tu correo, Drive o una USB. La app te avisa si pasan más de 7 días.
+  - "Restaurar respaldo" lo vuelve a cargar:
+      Agregar          = suma esas ligas a las que ya tienes.
+      Reemplazar todo  = deja solo lo que trae el respaldo.
+  - Para pasar tus ligas de la computadora al celular: respaldo en una, restaurar en la otra.
+
+ACTUALIZAR LA APP MÁS ADELANTE
+  1. Sube los archivos nuevos al repositorio (reemplazando los anteriores).
+  2. Los usuarios verán el aviso "Hay una versión nueva" -> Actualizar.
+     La versión se ve al pie de la página.
+  Tus ligas no se borran al actualizar.
