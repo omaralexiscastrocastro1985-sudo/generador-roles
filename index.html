@@ -274,7 +274,7 @@ footer.pie{color:var(--muted);font-size:.85rem;text-align:center;padding:0 16px 
 "use strict";
 const DAYS=["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
 const HOURS=[];for(let h=7;h<24;h++)for(const m of [0,30]){const h12=h%12||12;HOURS.push(`${h12}:${m?"30":"00"} ${h<12?"AM":"PM"}`)}
-const MAXT=16,MAXS=8,MAXJ=30,APP_VERSION="1.0.0",BUILD="pwa",OLDKEYS=["generador-roles-v2","generador-roles-v1"];
+const MAXT=16,MAXS=8,MAXJ=30,APP_VERSION="1.0.1",BUILD="pwa",OLDKEYS=["generador-roles-v2","generador-roles-v1"];
 const DEF={liga:"FIU FIU LEAGUE",cat:"PLUS",temp:"OCTUBRE 2026",jor:9,lock:false,
   slots:[{d:"Miércoles",h:"7:00 PM"},{d:"Miércoles",h:"9:00 PM"},{d:"Jueves",h:"7:00 PM"},{d:"Jueves",h:"9:00 PM"}],
   teams:["F&C El Negro","KN Boutique","Team Chantal","ERENA'S TEAM","Indomables","Doble C Junior","Nuevos Valores","Exclusivo Kids","Black Diamond"],res:null};
@@ -753,6 +753,16 @@ $("wa").onclick=async()=>{
 /* ---------- Excel ---------- */
 let downloads=null;
 (async()=>{try{downloads=window.claude&&window.claude.use?await window.claude.use("downloads"):null}catch(e){downloads=null}})();
+let excelPromesa=null;
+function cargarScript(src){return new Promise((ok,err)=>{const el=document.createElement("script");el.src=src;el.onload=ok;el.onerror=err;document.head.appendChild(el);setTimeout(()=>err(new Error("tiempo")),15000)})}
+function asegurarExcel(){
+  if(window.ExcelJS)return Promise.resolve(true);
+  if(excelPromesa)return excelPromesa;
+  const fuentes=(BUILD==="pwa"?["vendor/exceljs.min.js"]:[]).concat(["https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"]);
+  excelPromesa=(async()=>{for(const src of fuentes){if(window.ExcelJS)break;try{await cargarScript(src)}catch(e){}}return !!window.ExcelJS})();
+  excelPromesa.then(ok=>{if(!ok)excelPromesa=null});
+  return excelPromesa;
+}
 function bajarDirecto(blob,fn){
   const url=URL.createObjectURL(blob),a=document.createElement("a");
   a.href=url;a.download=fn;a.rel="noopener";document.body.appendChild(a);a.click();
@@ -819,7 +829,7 @@ async function buildXlsx(R){
 $("dl").onclick=async()=>{
   if(!st.res){toast("Primero presiona “Generar rol equitativo”.");return}
   if(busyNow)return;
-  if(!window.ExcelJS){toast("No cargó el componente de Excel. Revisa tu conexión a internet y recarga la página.");return}
+  if(!(await asegurarExcel())){toast("No se pudo cargar el componente de Excel. Revisa que la carpeta vendor esté subida a GitHub o conéctate a internet y vuelve a intentar.");return}
   let blob,fn;
   try{
     const buf=await buildXlsx(st.res);
